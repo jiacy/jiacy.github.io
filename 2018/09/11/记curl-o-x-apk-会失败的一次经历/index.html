@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="下载APK的代码之前一直这么写的123456789# app relateddef download_app(app_url):    Logger.INFO(&amp;quot;downloading &amp;#123;&amp;#125;...&amp;quot;.format(app_url))    cmd_clear = &amp;apos;rm -rf App/NewsArticle-release.apk&amp;apos;">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-11T06:46:42.835Z">
+<meta property="og:updated_time" content="2018-09-11T06:49:25.852Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记curl -o x.apk $URL 会失败的一次经历">
 <meta name="twitter:description" content="下载APK的代码之前一直这么写的123456789# app relateddef download_app(app_url):    Logger.INFO(&amp;quot;downloading &amp;#123;&amp;#125;...&amp;quot;.format(app_url))    cmd_clear = &amp;apos;rm -rf App/NewsArticle-release.apk&amp;apos;">
@@ -303,7 +303,7 @@
 <p>一直用来下载CI打出的包/竞品的包，一般都是<a href="https://xx/xx/xx.apk，一直没什么问题" target="_blank" rel="noopener">https://xx/xx/xx.apk，一直没什么问题</a><br>昨天有个同事反馈说他的包下载不下来，然后给了我这样一个地址：<a href="https://s.toutiao.com/o4Aw9/" target="_blank" rel="noopener">https://s.toutiao.com/o4Aw9/</a></p>
 <p>看到这个地址第一反应：难道我取后缀的xx.apk强制命名了，所以有Bug？回头看了一下代码没有啊，不是我的问题，嗯</p>
 <p>排除了我写法的问题，用直接在shell里面执行了一下curl -o xx.apk $url，发现嗨，这种URL真不行哎，为什么呢？</p>
-<p>在浏览器下载这个URL对应的APP，通知抓一下network的情况；发现奥，这是个短链URL，浏览器先请求这个URL发现被重定向到了另一个网址，然后再从另一个地址下载的APK<br>而curl -o xx.file 其实是把请求的response写入了这个文件（哎，curl用的比较粗略，只知其然不知其所以然啊）</p>
+<p>在浏览器下载这个URL对应的APP，同时抓一下network的情况；发现奥，这是个短链URL，浏览器先请求这个URL发现被重定向到了另一个网址，然后再从另一个地址下载的APK<br>而curl -o xx.file 其实是把请求的response写入了这个文件（哎，curl用的比较粗略，只知其然不知其所以然啊）</p>
 <p>如果要下载这个apk，可以先用python的requests模块搞吧，用curl怎么搞还得花时间研究一下，改天</p>
 
       
