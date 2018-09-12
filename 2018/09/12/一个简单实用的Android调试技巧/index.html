@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="下载APK的代码之前一直这么写的123456789# app relateddef download_app(app_url):    Logger.INFO(&amp;quot;downloading &amp;#123;&amp;#125;...&amp;quot;.format(app_url))    cmd_clear = &amp;apos;rm -rf App/NewsArticle-release.apk&amp;apos;">
+<meta name="description" content="在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。 比如 我们调试的点在应用一打开的时候，很靠前，例如Application的onCreate方法中，以至于我们不能足够快的设置进程为debug模式虽然上面的情况可以通过Android Studi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记curl -o x.apk $URL 会失败的一次经历">
-<meta property="og:url" content="http://yoursite.com/2018/09/11/记curl-o-x-apk-会失败的一次经历/index.html">
+<meta property="og:title" content="【Android】 一个简单实用的Android调试技巧">
+<meta property="og:url" content="http://yoursite.com/2018/09/12/一个简单实用的Android调试技巧/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="下载APK的代码之前一直这么写的123456789# app relateddef download_app(app_url):    Logger.INFO(&amp;quot;downloading &amp;#123;&amp;#125;...&amp;quot;.format(app_url))    cmd_clear = &amp;apos;rm -rf App/NewsArticle-release.apk&amp;apos;">
+<meta property="og:description" content="在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。 比如 我们调试的点在应用一打开的时候，很靠前，例如Application的onCreate方法中，以至于我们不能足够快的设置进程为debug模式虽然上面的情况可以通过Android Studi">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-11T06:49:25.852Z">
+<meta property="og:image" content="http://7jpolu.com1.z0.glb.clouddn.com/android_waiting_for_debugger_dialog.png">
+<meta property="og:updated_time" content="2018-09-12T06:32:50.339Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记curl -o x.apk $URL 会失败的一次经历">
-<meta name="twitter:description" content="下载APK的代码之前一直这么写的123456789# app relateddef download_app(app_url):    Logger.INFO(&amp;quot;downloading &amp;#123;&amp;#125;...&amp;quot;.format(app_url))    cmd_clear = &amp;apos;rm -rf App/NewsArticle-release.apk&amp;apos;">
+<meta name="twitter:title" content="【Android】 一个简单实用的Android调试技巧">
+<meta name="twitter:description" content="在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。 比如 我们调试的点在应用一打开的时候，很靠前，例如Application的onCreate方法中，以至于我们不能足够快的设置进程为debug模式虽然上面的情况可以通过Android Studi">
+<meta name="twitter:image" content="http://7jpolu.com1.z0.glb.clouddn.com/android_waiting_for_debugger_dialog.png">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/11/记curl-o-x-apk-会失败的一次经历/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/12/一个简单实用的Android调试技巧/"/>
 
 
 
 
 
-  <title>记curl -o x.apk $URL 会失败的一次经历 | Hexo</title>
+  <title>【Android】 一个简单实用的Android调试技巧 | Hexo</title>
   
 
 
@@ -232,7 +234,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/记curl-o-x-apk-会失败的一次经历/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/12/一个简单实用的Android调试技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -249,7 +251,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">记curl -o x.apk $URL 会失败的一次经历</h1>
+          <h1 class="post-title" itemprop="name headline">【Android】 一个简单实用的Android调试技巧</h1>
         
 
         <div class="post-meta">
@@ -261,8 +263,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-11T14:34:32+08:00">
-                2018-09-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-12T14:29:05+08:00">
+                2018-09-12
               </time>
             
 
@@ -299,12 +301,23 @@
       
 
       
-        <p>下载APK的代码之前一直这么写的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># app related</span><br><span class="line">def download_app(app_url):</span><br><span class="line">    Logger.INFO(&quot;downloading &#123;&#125;...&quot;.format(app_url))</span><br><span class="line">    cmd_clear = &apos;rm -rf App/NewsArticle-release.apk&apos;</span><br><span class="line">    cmd = &apos;curl -o App/NewsArticle-release.apk &#123;&#125;&apos;.format(app_url)</span><br><span class="line">    subprocess.call(cmd_clear, shell=True)</span><br><span class="line">    subprocess.call(cmd, shell=True)</span><br><span class="line">    import pdb; pdb.set_trace()</span><br><span class="line">    Logger.INFO(&quot;download &#123;&#125; finish&quot;.format(app_url))</span><br></pre></td></tr></table></figure></p>
-<p>一直用来下载CI打出的包/竞品的包，一般都是<a href="https://xx/xx/xx.apk，一直没什么问题" target="_blank" rel="noopener">https://xx/xx/xx.apk，一直没什么问题</a><br>昨天有个同事反馈说他的包下载不下来，然后给了我这样一个地址：<a href="https://s.toutiao.com/o4Aw9/" target="_blank" rel="noopener">https://s.toutiao.com/o4Aw9/</a></p>
-<p>看到这个地址第一反应：难道我取后缀的xx.apk强制命名了，所以有Bug？回头看了一下代码没有啊，不是我的问题，嗯</p>
-<p>排除了我写法的问题，用直接在shell里面执行了一下curl -o xx.apk $url，发现嗨，这种URL真不行哎，为什么呢？</p>
-<p>在浏览器下载这个URL对应的APP，同时抓一下network的情况；发现奥，这是个短链URL，浏览器先请求这个URL发现被重定向到了另一个网址，然后再从另一个地址下载的APK<br>而curl -o xx.file 其实是把请求的response写入了这个文件（哎，curl用的比较粗略，只知其然不知其所以然啊）</p>
-<p>如果要下载这个apk，可以先用python的requests模块搞吧，用curl怎么搞还得花时间研究一下，改天</p>
+        <p>在应用开发中，我们常常会进行日志打印或者debug调试，以此来分析运行时的一些信息，便于发现bug和问题。Android Studio的Debug功能很好用，但是有时候有些情况下，就显得不是那么快捷和便利。</p>
+<p>比如</p>
+<p>我们调试的点在应用一打开的时候，很靠前，例如Application的onCreate方法中，以至于我们不能足够快的设置进程为debug模式<br>虽然上面的情况可以通过Android Studio的debug运行来解决，但是如果项目很大的话，运行起来也会比较耽误时间<br>那么怎么解决上面的问题呢，其实只需要执行一行命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am set-debug-app -w com.example.jishuxiaoheiwu.appdebugsample</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<p>set-debug-app 用来应用为debug模式<br>-w 意思为wait，在进程启动的时候，等待debugger进行连接<br>com.example.jishuxiaoheiwu.appdebugsample 代表想要调试的应用的包名或ApplicationId<br>执行上面的命令，当我们再次启动目标应用时，会得到这样的画面</p>
+<p><img src="http://7jpolu.com1.z0.glb.clouddn.com/android_waiting_for_debugger_dialog.png" alt="Android Waiting For Debugger Dialog"></p>
+<p>然后，我们就会有足够的时间，来使用Run—&gt; Attach Debugger to Android Process 来绑定进程debug。 绑定后对话框消失，下次启动就是正常的启动（没有上面的对话框了）</p>
+<p>那么一次debug不一定能解决问题，多次调试则在所难免，那么每次都要执行这个命令么？</p>
+<p>答案是可以，但是有更好的方式。即</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am set-debug-app -w --persistent  com.example.jishuxiaoheiwu.appdebugsample</span><br></pre></td></tr></table></figure>
+<p>上面的代码和之前有所不同，表现在一个—persistent</p>
+<p>—persitent意思是持久的，意思是一直设置这个应用为调试模式，即每次开启（进程创建）都会弹出对话框，即使卸载再安装或者更新应用<br>如果多次debug完成后，解决了问题，想要恢复正常的启动也很简单</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am clear-debug-app</span><br></pre></td></tr></table></figure>
+<p>这个调试的方法很简单，但是可能会节省我们很多的宝贵时间。希望可以帮助到各位开发同行。</p>
+<p>另外，当你的开发中遇到效率问题时，你需要做出思考，发觉更快捷的工作方式，而不是为了调试Application中onCreate方法中的代码，每次都点击Android Studio的debug按钮。</p>
+<p>refs: <a href="https://droidyue.com/blog/2017/05/14/a-little-but-useful-debug-skill_for_android/" target="_blank" rel="noopener">https://droidyue.com/blog/2017/05/14/a-little-but-useful-debug-skill_for_android/</a></p>
 
       
     </div>
@@ -329,8 +342,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/11/123test/" rel="next" title="123test...">
-                <i class="fa fa-chevron-left"></i> 123test...
+              <a href="/2018/09/11/记curl-o-x-apk-会失败的一次经历/" rel="next" title="记curl -o x.apk $URL 会失败的一次经历">
+                <i class="fa fa-chevron-left"></i> 记curl -o x.apk $URL 会失败的一次经历
               </a>
             
           </div>
@@ -338,10 +351,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/12/一个简单实用的Android调试技巧/" rel="prev" title="【Android】 一个简单实用的Android调试技巧">
-                【Android】 一个简单实用的Android调试技巧 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
