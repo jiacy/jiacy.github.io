@@ -229,6 +229,131 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/多线程同时执行monkey/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/26/多线程同时执行monkey/" itemprop="url">多线程同时执行monkey</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-26T12:02:17+08:00">
+                2018-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>其实python 多线程/多进程这块偶尔用的时候也没有看的太透，因为同事需要，随手写了个同时执行monkey的小脚本<br>记录一下想做的优化</p>
+<ul>
+<li>改用<strong>call</strong>做monkey触发</li>
+<li>监控monkey执行结束后自动pull</li>
+</ul>
+<p>附上小脚本<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf8</span></span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> thread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment">#35864d3d</span></span><br><span class="line">serial_list = [<span class="string">'Y15QFBNT22WM7'</span>,<span class="string">'35864d3d'</span>]</span><br><span class="line">pkg_name = <span class="string">"com.ss.android.article.lite"</span></span><br><span class="line">event_cnt = <span class="string">"500"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Monkey</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, serial_no, event_cnt, pkg_name)</span>:</span></span><br><span class="line">        self.serial_no = serial_no</span><br><span class="line">        self.event_cnt = event_cnt</span><br><span class="line">        self.pkg_name = pkg_name</span><br><span class="line">        self.proc = subprocess.Popen(<span class="string">'adb -s &#123;&#125; shell'</span>.format(self.serial_no), stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_monkey</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""change to __call__ later"""</span></span><br><span class="line">        cmd = <span class="string">'monkey -p &#123;0&#125; --pct-syskeys 20 --ignore-crashes --ignore-native-crashes --ignore-timeouts " --ignore-security-exceptions --monitor-native-crashes " --throttle 200 -s 88888 &#123;1&#125; &gt; /sdcard/monkey_&#123;2&#125;_&#123;0&#125;.log'</span>.format(self.pkg_name, self.event_cnt, self.serial_no)</span><br><span class="line">        self.proc.communicate(cmd + <span class="string">'\nexit\n'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pull_log</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""pull monkey Log"""</span></span><br><span class="line">        cmd = <span class="string">"adb -s &#123;0&#125; pull /sdcard/monkey_&#123;0&#125;_&#123;1&#125;.log ."</span>.format(self.serial_no, self.pkg_name)</span><br><span class="line">        subprocess.call(cmd, shell=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">for</span> serial_no <span class="keyword">in</span> serial_list:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'serial &#123;&#125; monkey start'</span>.format(serial_no)</span><br><span class="line">        monkey = Monkey(serial_no, event_cnt, pkg_name)</span><br><span class="line">        thread.start_new_thread(monkey.start_monkey, ())</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'serial &#123;&#125; monkey end'</span>.format(serial_no)</span><br><span class="line">        <span class="comment"># monkey.pull_log()</span></span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/13/Android-PackageManager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -891,7 +1016,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
